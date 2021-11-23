@@ -1,0 +1,16 @@
+<mat-sidenav-container>
+  <mat-sidenav #slide autoFocus="false" fxLayout="column" mode="push">
+    <app-side-menu></app-side-menu>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="slide.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Animal management</span>
+    </mat-toolbar>
+    <div class="content">
+      <ng-content></ng-content>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
