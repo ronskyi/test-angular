@@ -1,0 +1,9 @@
+<mat-progress-bar *ngIf="(store.isLoading$ | async)" mode="indeterminate"></mat-progress-bar>
+
+<ng-container *ngIf="!(store.isLoading$ | async) && (store.item$ | async)">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <h1>Update animal</h1>
+    <app-animal-delete [item]="(store.item$ | async)!" (onDeleted)="returnToList()"></app-animal-delete>
+  </div>
+  <app-animal-form [data]="(store.item$ | async)!" (onSave)="updateItem($event)"></app-animal-form>
+</ng-container>

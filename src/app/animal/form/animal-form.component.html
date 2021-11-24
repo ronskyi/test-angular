@@ -1,0 +1,36 @@
+<form
+  [formGroup]="animalForm"
+  (ngSubmit)="formSubmit()"
+>
+  <mat-card>
+    <mat-card-content fxLayout="column">
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type" required>
+          <mat-option value="Pet">Pet</mat-option>
+          <mat-option value="WildAnimal">WildAnimal</mat-option>
+        </mat-select>
+        <mat-error *ngIf="animalForm.get('type')?.hasError('required')">
+          Type is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Birthday</mat-label>
+        <input matInput formControlName="birthday" [matDatepicker]="datepicker">
+        <mat-error *ngIf="animalForm.get('birthday')?.hasError('required')">
+          Birthday is <strong>required</strong>
+        </mat-error>
+        <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker></mat-datepicker>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-flat-button
+        type="submit"
+        [disabled]="!animalForm.valid"
+      >Save
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
