@@ -43,7 +43,6 @@ export class OwnerDeleteStore extends ComponentStore<OwnerDeleteState> {
         switchMap((id) => this.ownerService.delete(id)),
         tap({
           next: (c) => {
-            console.log(c);
             c ? this.changeState(OwnerDeleteStateEnum.SUCCESS) : this.changeState(OwnerDeleteStateEnum.UNKNOWN_ERROR);
           },
           error: (e) => {

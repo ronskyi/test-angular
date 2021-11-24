@@ -1,0 +1,39 @@
+<form
+  [formGroup]="specieForm"
+  (ngSubmit)="formSubmit()"
+>
+  <mat-card>
+    <mat-card-content fxLayout="column">
+      <mat-form-field>
+        <mat-label>Label</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="label"
+          required
+        />
+        <mat-error
+          *ngIf="
+      specieForm.get('label')?.hasError('maxlength')
+      && !specieForm.get('label')?.hasError('required')
+      "
+        >
+          Maximum size is 100 characters
+        </mat-error>
+        <mat-error
+          *ngIf="specieForm.get('fullName')?.hasError('required')"
+        >
+          Label is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-flat-button
+        type="submit"
+        [disabled]="!specieForm.valid"
+      >Save
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>

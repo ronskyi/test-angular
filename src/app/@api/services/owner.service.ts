@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Collection } from '../../@models/collection';
 import { Owner } from '../../@models/owner';
 
@@ -39,9 +39,7 @@ export class OwnerService {
   }
 
   public delete(id: string): Observable<boolean> {
-    console.log(id)
     return this.http.delete(`/owners/${id}`, {observe: 'response'}).pipe(
-      tap(r => console.log(r)),
       map(r => r.status === 204)
     );
   }
