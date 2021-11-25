@@ -55,7 +55,7 @@ export class SpecieListStore extends ComponentStore<SpecieListState> {
       data$.pipe(
         tap(() => this.changeState(SpecieListLoadingStateEnum.LOADING)),
         tap((data) => this.setPagination({page: data.page, pageSize: data.pageSize})),
-        switchMap((data) => this.specieService.fetchList(data.page, data.pageSize)),
+        switchMap((data) => this.specieService.fetchList('', data.page, data.pageSize)),
         tap({
           next: (c) => {
             this.setList(c);

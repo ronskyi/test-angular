@@ -10,6 +10,9 @@ import { DeleteComponent } from './delete/delete.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     ApiModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgxMatSelectSearchModule,
+    MatDividerModule
   ]
 })
 export class AnimalModule { }

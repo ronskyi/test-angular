@@ -55,7 +55,7 @@ export class OwnerListStore extends ComponentStore<OwnerListState> {
       data$.pipe(
         tap(() => this.changeState(OwnerListLoadingStateEnum.LOADING)),
         tap((data) => this.setPagination({page: data.page, pageSize: data.pageSize})),
-        switchMap((data) => this.ownerService.fetchList(data.page, data.pageSize)),
+        switchMap((data) => this.ownerService.fetchList('', data.page, data.pageSize)),
         tap({
           next: (c) => {
             this.setList(c);

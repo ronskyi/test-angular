@@ -8,7 +8,7 @@
         <mat-label>Type</mat-label>
         <mat-select formControlName="type" required>
           <mat-option value="Pet">Pet</mat-option>
-          <mat-option value="WildAnimal">WildAnimal</mat-option>
+          <mat-option value="WildAnimal">Wild animal</mat-option>
         </mat-select>
         <mat-error *ngIf="animalForm.get('type')?.hasError('required')">
           Type is <strong>required</strong>
@@ -22,6 +22,63 @@
         </mat-error>
         <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
         <mat-datepicker #datepicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select formControlName="specie" placeholder="Select specie" required>
+          <mat-option>
+            <ngx-mat-select-search
+              formControlName="specieFilter"
+              placeholderLabel="Find specie..."
+              noEntriesFoundLabel="No search results..."
+            ></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngIf="currentSpecie" [value]="currentSpecie">{{currentSpecie.label}}</mat-option>
+          <ng-container *ngFor="let option of store.species$ | async">
+          <mat-option *ngIf="!currentSpecie || option.id !== currentSpecie.id" [value]="option">
+            {{option.label }}
+          </mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="animalForm.get('specie')?.hasError('required')">
+          Specie is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Vaccinated</mat-label>
+        <mat-select formControlName="vaccinated" required>
+          <mat-option [value]="true">Yes</mat-option>
+          <mat-option [value]="false">No</mat-option>
+        </mat-select>
+        <mat-error *ngIf="animalForm.get('vaccinated')?.hasError('required')">
+          Vaccinated is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field *ngIf="animalType === 'Pet'">
+        <mat-select formControlName="owner" placeholder="Select owner" required>
+          <mat-option>
+            <ngx-mat-select-search
+              formControlName="ownerFilter"
+              placeholderLabel="Find owner..."
+              noEntriesFoundLabel="No search results..."
+            ></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngIf="currentOwner" [value]="currentOwner">{{currentOwner.fullName}}</mat-option>
+          <ng-container *ngFor="let option of store.owners$ | async">
+            <mat-option *ngIf="!currentOwner || option.id !== currentOwner.id" [value]="option">
+              {{option.fullName }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="animalForm.get('owner')?.hasError('required')">
+          Owner is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field *ngIf="animalType === 'WildAnimal'">
+        <mat-label>Tracking ID</mat-label>
+        <input matInput formControlName="trackingId" required>
+        <mat-error *ngIf="animalForm.get('trackingId')?.hasError('required')">
+          Tracking ID is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
     </mat-card-content>
     <mat-card-actions>

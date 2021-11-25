@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { ComponentStore } from '@ngrx/component-store';
 import { EMPTY, Observable, switchMap, tap } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { SpecieService } from '../../@api/services/specie.service';
 import { DeleteComponentStateEnum } from '@shared/component-store/crud/enums';
 import { createInitialDeleteState, DeleteButtonState } from '@shared/component-store/crud/states';
+import { AnimalService } from '@api/services/animal.service';
 
 @Injectable()
 export class DeleteAnimalStore extends ComponentStore<DeleteButtonState> {
 
   constructor(
-    private readonly specieService: SpecieService
+    private readonly animalService: AnimalService
   ) {
     super(createInitialDeleteState());
   }
@@ -27,7 +27,7 @@ export class DeleteAnimalStore extends ComponentStore<DeleteButtonState> {
     (data$: Observable<string>) =>
       data$.pipe(
         tap(() => this.changeState(DeleteComponentStateEnum.WAITING_RESPONSE)),
-        switchMap((id) => this.specieService.delete(id)),
+        switchMap((id) => this.animalService.delete(id)),
         tap({
           next: (c) => {
             c ? this.changeState(DeleteComponentStateEnum.SUCCESS) : this.changeState(DeleteComponentStateEnum.UNKNOWN_ERROR);

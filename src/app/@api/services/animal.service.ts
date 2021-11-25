@@ -46,13 +46,13 @@ export class AnimalService {
     const data = {
       birthday: item.birthday,
       type: item.type,
-      specie: item.specie,
+      specieId: item.specie.id,
       vaccinated: item.vaccinated,
     };
     switch (item.type) {
       case 'Pet':
         Object.assign(data, {
-          owner: (item as Pet).owner.id
+          ownerId: (item as Pet).owner.id
         });
         break;
       case 'WildAnimal':
