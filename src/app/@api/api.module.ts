@@ -4,6 +4,8 @@ import { httpInterceptorProviders } from './http-interceptors';
 import { HttpClientModule } from '@angular/common/http';
 import { SpecieService } from './services/specie.service';
 import { AnimalService } from './services/animal.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthService } from '@api/services/auth.service';
 
 @NgModule({
   declarations: [],
@@ -12,6 +14,11 @@ import { AnimalService } from './services/animal.service';
     OwnerService,
     SpecieService,
     AnimalService,
+    AuthService,
+    {
+      provide: JwtHelperService,
+      useFactory: () => new JwtHelperService()
+    }
   ],
   imports: [
     HttpClientModule

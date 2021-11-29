@@ -15,9 +15,13 @@ import {
   NetworkError,
   ConflictError
 } from '../errors';
+import { Store } from '@ngrx/store';
+import { UnauthorizedError } from '@api/errors/unauthorized.error';
 
 @Injectable()
 export class ApiErrorInterceptor implements HttpInterceptor {
+  public constructor(private readonly store: Store) {}
+
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler,
@@ -30,6 +34,8 @@ export class ApiErrorInterceptor implements HttpInterceptor {
         switch (error.status) {
           case 400:
             throw new BadRequestError(error.error);
+          case 401:
+            throw new UnauthorizedError(error.statusText);
           case 404:
             throw new NotFoundError(error.statusText);
           case 409:
