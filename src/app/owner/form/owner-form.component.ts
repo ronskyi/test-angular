@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Owner } from '../../@models/owner';
+import { Owner } from '@models/owner';
 
 @Component({
   selector: 'app-owner-form',
@@ -15,8 +15,8 @@ import { Owner } from '../../@models/owner';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OwnerFormComponent implements OnInit {
-  @Input('data') owner?: Owner;
-  @Output() onSave: EventEmitter<Owner> = new EventEmitter<Owner>();
+  @Input() data?: Owner;
+  @Output() save: EventEmitter<Owner> = new EventEmitter<Owner>();
 
   ownerForm: FormGroup;
 
@@ -31,8 +31,8 @@ export class OwnerFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.owner) {
-      this.fillFormFromOwner(this.owner);
+    if (this.data) {
+      this.fillFormFromOwner(this.data);
     }
   }
 
@@ -40,7 +40,7 @@ export class OwnerFormComponent implements OnInit {
     if (!this.ownerForm.valid) {
       return;
     }
-    this.onSave.emit(this.createOwnerFromForm());
+    this.save.emit(this.createOwnerFromForm());
   }
 
   private fillFormFromOwner(owner: Owner): void {

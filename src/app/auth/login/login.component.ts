@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -18,7 +19,7 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [LoginStore],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @ViewChild('unknownError') unknownErrorTemplate?: TemplateRef<any>;

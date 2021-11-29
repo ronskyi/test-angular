@@ -3,16 +3,18 @@
   mode="indeterminate"
 ></mat-progress-bar>
 
-<ng-container *ngIf="!(store.isLoading$ | async) && (store.item$ | async)">
+<ng-container
+  *ngIf="(store.isLoading$ | async) === false && (store.item$ | async)"
+>
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <h1>Update specie "{{ (store.item$ | async)?.label }}"</h1>
     <app-specie-delete
       [item]="(store.item$ | async)!"
-      (onDeleted)="returnToList()"
+      (deleted)="returnToList()"
     ></app-specie-delete>
   </div>
   <app-specie-form
     [data]="(store.item$ | async)!"
-    (onSave)="updateSpecie($event)"
+    (save)="updateSpecie($event)"
   ></app-specie-form>
 </ng-container>

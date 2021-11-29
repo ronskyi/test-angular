@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Specie } from '../../@models/specie';
+import { Specie } from '@models/specie';
 
 @Component({
   selector: 'app-specie-form',
@@ -15,8 +15,8 @@ import { Specie } from '../../@models/specie';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpecieFormComponent implements OnInit {
-  @Input('data') specie?: Specie;
-  @Output() onSave: EventEmitter<Specie> = new EventEmitter<Specie>();
+  @Input() data?: Specie;
+  @Output() save: EventEmitter<Specie> = new EventEmitter<Specie>();
 
   specieForm: FormGroup;
 
@@ -27,8 +27,8 @@ export class SpecieFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.specie) {
-      this.fillFormFromSpecie(this.specie);
+    if (this.data) {
+      this.fillFormFromSpecie(this.data);
     }
   }
 
@@ -36,7 +36,7 @@ export class SpecieFormComponent implements OnInit {
     if (!this.specieForm.valid) {
       return;
     }
-    this.onSave.emit(this.createSpecieFromForm());
+    this.save.emit(this.createSpecieFromForm());
   }
 
   private fillFormFromSpecie(owner: Specie): void {

@@ -21,8 +21,8 @@ import { Specie } from '@models/specie';
   providers: [AnimalFormStore],
 })
 export class AnimalFormComponent implements OnInit, OnDestroy {
-  @Input('data') item?: Animal;
-  @Output() onSave: EventEmitter<Animal> = new EventEmitter<Animal>();
+  @Input() data?: Animal;
+  @Output() save: EventEmitter<Animal> = new EventEmitter<Animal>();
   animalForm: FormGroup;
   typeSubs?: Subscription;
   ownerFilterSubs?: Subscription;
@@ -45,19 +45,19 @@ export class AnimalFormComponent implements OnInit, OnDestroy {
   }
 
   get currentOwner(): Owner | undefined {
-    if (this.item?.type !== 'Pet') {
+    if (this.data?.type !== 'Pet') {
       return;
     }
-    return (this.item as Pet)?.owner;
+    return (this.data as Pet)?.owner;
   }
 
   get currentSpecie(): Specie | undefined {
-    return this.item?.specie;
+    return this.data?.specie;
   }
 
   ngOnInit(): void {
-    if (this.item) {
-      this.fillFormFromAnimal(this.item);
+    if (this.data) {
+      this.fillFormFromAnimal(this.data);
     }
     this.typeSubs = this.animalForm
       .get('type')
@@ -104,7 +104,7 @@ export class AnimalFormComponent implements OnInit, OnDestroy {
       return;
     }
     console.log(this.createAnimalFromForm());
-    this.onSave.emit(this.createAnimalFromForm());
+    this.save.emit(this.createAnimalFromForm());
   }
 
   private fillFormFromAnimal(item: Animal): void {

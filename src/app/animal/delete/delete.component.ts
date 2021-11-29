@@ -20,7 +20,7 @@ import { Animal } from '@models/animal';
 })
 export class DeleteComponent implements OnInit, OnDestroy {
   @Input() item?: Animal;
-  @Output() onDeleted: EventEmitter<void> = new EventEmitter();
+  @Output() deleted: EventEmitter<void> = new EventEmitter();
   deletedSubs?: Subscription;
 
   constructor(public readonly store: DeleteAnimalStore) {}
@@ -28,7 +28,7 @@ export class DeleteComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.deletedSubs = this.store.isDeleted$
       .pipe(filter((d) => d))
-      .subscribe(() => this.onDeleted.emit());
+      .subscribe(() => this.deleted.emit());
   }
 
   ngOnDestroy() {

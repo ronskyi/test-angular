@@ -20,7 +20,7 @@ import { filter, Subscription } from 'rxjs';
 })
 export class DeleteComponent implements OnInit, OnDestroy {
   @Input() owner?: Owner;
-  @Output() onDeleted: EventEmitter<void> = new EventEmitter();
+  @Output() deleted: EventEmitter<void> = new EventEmitter();
   deletedSubs?: Subscription;
 
   constructor(public readonly store: OwnerDeleteStore) {}
@@ -28,7 +28,7 @@ export class DeleteComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.deletedSubs = this.store.isDeleted$
       .pipe(filter((d) => d))
-      .subscribe(() => this.onDeleted.emit());
+      .subscribe(() => this.deleted.emit());
   }
 
   ngOnDestroy() {

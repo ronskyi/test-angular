@@ -1,9 +1,9 @@
 {
-  "$schema": "medondo-front-test/node_modules/@angular/cli/lib/config/schema.json",
+  "$schema": "node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "medondo-front-test": {
+    "animal-management": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/medondo-front-test",
+            "outputPath": "dist/animal-management",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "medondo-front-test:build:production"
+              "browserTarget": "animal-management:build:production"
             },
             "development": {
-              "browserTarget": "medondo-front-test:build:development"
+              "browserTarget": "animal-management:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "medondo-front-test:build"
+            "browserTarget": "animal-management:build"
           }
         },
         "test": {
@@ -103,9 +103,21 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
   },
-  "defaultProject": "medondo-front-test"
+  "defaultProject": "animal-management",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
