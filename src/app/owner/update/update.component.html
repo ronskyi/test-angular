@@ -1,9 +1,18 @@
-<mat-progress-bar *ngIf="(store.isLoading$ | async)" mode="indeterminate"></mat-progress-bar>
+<mat-progress-bar
+  *ngIf="store.isLoading$ | async"
+  mode="indeterminate"
+></mat-progress-bar>
 
 <ng-container *ngIf="!(store.isLoading$ | async) && (store.owner$ | async)">
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <h1>Update owner "{{(store.owner$ | async)?.fullName}}"</h1>
-    <app-owner-delete [owner]="(store.owner$ | async)!" (onDeleted)="returnToList()"></app-owner-delete>
+    <h1>Update owner "{{ (store.owner$ | async)?.fullName }}"</h1>
+    <app-owner-delete
+      [owner]="(store.owner$ | async)!"
+      (onDeleted)="returnToList()"
+    ></app-owner-delete>
   </div>
-  <app-owner-form [data]="(store.owner$ | async)!" (onSave)="updateOwner($event)"></app-owner-form>
+  <app-owner-form
+    [data]="(store.owner$ | async)!"
+    (onSave)="updateOwner($event)"
+  ></app-owner-form>
 </ng-container>

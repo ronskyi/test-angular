@@ -8,18 +8,16 @@ import { StoreModule } from '@ngrx/store';
 import { AuthModule } from './auth/auth.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     StoreModule.forRoot({}),
     LayoutModule,
     BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
-    AuthModule
+    AuthModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

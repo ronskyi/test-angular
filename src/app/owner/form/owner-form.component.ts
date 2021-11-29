@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Owner } from '../../@models/owner';
 
@@ -8,21 +15,18 @@ import { Owner } from '../../@models/owner';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OwnerFormComponent implements OnInit {
-
   @Input('data') owner?: Owner;
   @Output() onSave: EventEmitter<Owner> = new EventEmitter<Owner>();
 
   ownerForm: FormGroup;
 
-  constructor(
-    private readonly formBuilder: FormBuilder
-  ) {
+  constructor(private readonly formBuilder: FormBuilder) {
     this.ownerForm = formBuilder.group({
-      'fullName': ['', [Validators.required, Validators.maxLength(100)]],
-      'city': ['', [Validators.required, Validators.maxLength(50)]],
-      'street': ['', [Validators.required, Validators.maxLength(50)]],
-      'country': ['', [Validators.required, Validators.maxLength(50)]],
-      'zipCode': ['', [Validators.required, Validators.maxLength(10)]],
+      fullName: ['', [Validators.required, Validators.maxLength(100)]],
+      city: ['', [Validators.required, Validators.maxLength(50)]],
+      street: ['', [Validators.required, Validators.maxLength(50)]],
+      country: ['', [Validators.required, Validators.maxLength(50)]],
+      zipCode: ['', [Validators.required, Validators.maxLength(10)]],
     });
   }
 
@@ -56,6 +60,6 @@ export class OwnerFormComponent implements OnInit {
         country: this.ownerForm.get('country')?.value,
         zipCode: this.ownerForm.get('zipCode')?.value,
       },
-    } as Owner
+    } as Owner;
   }
 }

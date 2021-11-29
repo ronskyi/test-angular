@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { LoginStateEnum, LoginStore } from './login.store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -10,10 +16,9 @@ import { Subscription } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [LoginStore]
+  providers: [LoginStore],
 })
 export class LoginComponent implements OnInit {
-
   public form: FormGroup;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @ViewChild('unknownError') unknownErrorTemplate?: TemplateRef<any>;
@@ -36,28 +41,26 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loginStateSubscription = this.store.loginState$.subscribe(
-      (state) => {
-        if (state === LoginStateEnum.WAITING_RESPONSE) {
-          this.form.disable({ emitEvent: false });
-        } else {
-          this.form.enable({ emitEvent: false });
-        }
+    this.loginStateSubscription = this.store.loginState$.subscribe((state) => {
+      if (state === LoginStateEnum.WAITING_RESPONSE) {
+        this.form.disable({ emitEvent: false });
+      } else {
+        this.form.enable({ emitEvent: false });
+      }
 
-        if (state === LoginStateEnum.SUCCESS) {
-          void this.router.navigate(['']);
-        }
+      if (state === LoginStateEnum.SUCCESS) {
+        void this.router.navigate(['']);
+      }
 
-        if (
-          state === LoginStateEnum.UNKNOWN_ERROR &&
-          this.unknownErrorTemplate !== undefined
-        ) {
-          this.snackBar.openFromTemplate(this.unknownErrorTemplate, {
-            duration: 6000,
-          });
-        }
-      },
-    );
+      if (
+        state === LoginStateEnum.UNKNOWN_ERROR &&
+        this.unknownErrorTemplate !== undefined
+      ) {
+        this.snackBar.openFromTemplate(this.unknownErrorTemplate, {
+          duration: 6000,
+        });
+      }
+    });
     this.formChangesSubscription = this.form.valueChanges.subscribe(() =>
       this.store.reset(),
     );
@@ -74,5 +77,4 @@ export class LoginComponent implements OnInit {
       password: String(this.form.get('password')?.value),
     });
   }
-
 }

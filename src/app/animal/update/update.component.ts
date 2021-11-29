@@ -8,15 +8,14 @@ import { Animal } from '@models/animal';
   providers: [UpdateAnimalStore],
 })
 export class UpdateComponent implements OnInit {
-
   constructor(
     public readonly store: UpdateAnimalStore,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly router: Router
-  ) { }
+    private readonly router: Router,
+  ) {}
 
   ngOnInit(): void {
-    this.store.fetchItem(this.activatedRoute.snapshot.params['id'])
+    this.store.fetchItem(this.activatedRoute.snapshot.params['id']);
   }
 
   updateItem(item: Animal) {

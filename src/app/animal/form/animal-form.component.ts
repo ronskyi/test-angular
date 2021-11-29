@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Animal, Pet, WildAnimal } from '@models/animal';
 import { Subscription } from 'rxjs';
@@ -10,10 +18,9 @@ import { Specie } from '@models/specie';
   selector: 'app-animal-form',
   templateUrl: './animal-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [AnimalFormStore]
+  providers: [AnimalFormStore],
 })
 export class AnimalFormComponent implements OnInit, OnDestroy {
-
   @Input('data') item?: Animal;
   @Output() onSave: EventEmitter<Animal> = new EventEmitter<Animal>();
   animalForm: FormGroup;
@@ -26,14 +33,14 @@ export class AnimalFormComponent implements OnInit, OnDestroy {
     private readonly formBuilder: FormBuilder,
   ) {
     this.animalForm = formBuilder.group({
-      'type': ['', [Validators.required]],
-      'birthday': ['', [Validators.required]],
-      'specieFilter': [''],
-      'specie': ['', [Validators.required]],
-      'vaccinated': ['', [Validators.required]],
-      'ownerFilter': [''],
-      'owner': [''],
-      'trackingId': [''],
+      type: ['', [Validators.required]],
+      birthday: ['', [Validators.required]],
+      specieFilter: [''],
+      specie: ['', [Validators.required]],
+      vaccinated: ['', [Validators.required]],
+      ownerFilter: [''],
+      owner: [''],
+      trackingId: [''],
     });
   }
 
@@ -52,26 +59,34 @@ export class AnimalFormComponent implements OnInit, OnDestroy {
     if (this.item) {
       this.fillFormFromAnimal(this.item);
     }
-    this.typeSubs = this.animalForm.get('type')?.valueChanges.subscribe((event) => {
-      this.animalForm.get('owner')?.setValidators([]);
-      this.animalForm.get('trackingId')?.setValidators([]);
-      switch (event.value) {
-        case 'Pet':
-          this.animalForm.get('owner')?.setValidators([Validators.required]);
-          break;
-        case 'WildAnimal':
-          this.animalForm.get('trackingId')?.setValidators([Validators.required]);
-          break;
-      }
-      this.animalForm.get('owner')?.updateValueAndValidity();
-      this.animalForm.get('trackingId')?.updateValueAndValidity();
-    });
-    this.ownerFilterSubs = this.animalForm.get('ownerFilter')?.valueChanges.subscribe((event) => {
-      this.store.updateOwnersWithKeyword(event);
-    });
-    this.specieFilterSubs = this.animalForm.get('specieFilter')?.valueChanges.subscribe((event) => {
-      this.store.updateSpeciesWithKeyword(event);
-    });
+    this.typeSubs = this.animalForm
+      .get('type')
+      ?.valueChanges.subscribe((event) => {
+        this.animalForm.get('owner')?.setValidators([]);
+        this.animalForm.get('trackingId')?.setValidators([]);
+        switch (event.value) {
+          case 'Pet':
+            this.animalForm.get('owner')?.setValidators([Validators.required]);
+            break;
+          case 'WildAnimal':
+            this.animalForm
+              .get('trackingId')
+              ?.setValidators([Validators.required]);
+            break;
+        }
+        this.animalForm.get('owner')?.updateValueAndValidity();
+        this.animalForm.get('trackingId')?.updateValueAndValidity();
+      });
+    this.ownerFilterSubs = this.animalForm
+      .get('ownerFilter')
+      ?.valueChanges.subscribe((event) => {
+        this.store.updateOwnersWithKeyword(event);
+      });
+    this.specieFilterSubs = this.animalForm
+      .get('specieFilter')
+      ?.valueChanges.subscribe((event) => {
+        this.store.updateSpeciesWithKeyword(event);
+      });
   }
 
   ngOnDestroy() {
@@ -101,7 +116,9 @@ export class AnimalFormComponent implements OnInit, OnDestroy {
       this.animalForm.get('owner')?.setValue((item as Pet).owner);
     }
     if (item.type === 'WildAnimal' && (item as WildAnimal).trackingId) {
-      this.animalForm.get('trackingId')?.setValue((item as WildAnimal).trackingId);
+      this.animalForm
+        .get('trackingId')
+        ?.setValue((item as WildAnimal).trackingId);
     }
   }
 
@@ -115,12 +132,12 @@ export class AnimalFormComponent implements OnInit, OnDestroy {
     switch (this.animalType) {
       case 'Pet':
         Object.assign(animal, {
-          owner: this.animalForm.get('owner')?.value
+          owner: this.animalForm.get('owner')?.value,
         });
         break;
       case 'WildAnimal':
         Object.assign(animal, {
-          trackingId: this.animalForm.get('trackingId')?.value
+          trackingId: this.animalForm.get('trackingId')?.value,
         });
         break;
     }

@@ -14,12 +14,8 @@ import { DeleteComponent } from './delete/delete.component';
     ListComponent,
     UpdateComponent,
     CreateComponent,
-    DeleteComponent
+    DeleteComponent,
   ],
-  imports: [
-    SpecieRoutingModule,
-    SharedModule,
-    ApiModule
-  ]
+  imports: [SpecieRoutingModule, SharedModule, ApiModule],
 })
-export class SpecieModule { }
+export class SpecieModule {}

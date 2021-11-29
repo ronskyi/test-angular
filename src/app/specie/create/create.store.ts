@@ -18,58 +18,56 @@ export interface SpecieCreateState {
 }
 
 export const initialState = {
-  state: SpecieCreateStateEnum.INITIAL
+  state: SpecieCreateStateEnum.INITIAL,
 } as SpecieCreateState;
 
 @Injectable()
 export class CreateSpecieStore extends ComponentStore<SpecieCreateState> {
-
-  constructor(
-    private readonly specieService: SpecieService
-  ) {
+  constructor(private readonly specieService: SpecieService) {
     super(initialState);
   }
 
   get isLoading$() {
-    return this.select(s => s.state === SpecieCreateStateEnum.WAITING_RESPONSE)
+    return this.select(
+      (s) => s.state === SpecieCreateStateEnum.WAITING_RESPONSE,
+    );
   }
 
   get createdId$() {
-    return this.select(s => s.createdId)
+    return this.select((s) => s.createdId);
   }
 
-  readonly create = this.effect(
-    (data$: Observable<Specie>) =>
-      data$.pipe(
-        tap(() => this.changeState(SpecieCreateStateEnum.WAITING_RESPONSE)),
-        switchMap((data) => this.specieService.create(data).pipe(
-          catchError(err => {
-            this.changeState(SpecieCreateStateEnum.UNKNOWN_ERROR)
+  readonly create = this.effect((data$: Observable<Specie>) =>
+    data$.pipe(
+      tap(() => this.changeState(SpecieCreateStateEnum.WAITING_RESPONSE)),
+      switchMap((data) =>
+        this.specieService.create(data).pipe(
+          catchError((err) => {
+            this.changeState(SpecieCreateStateEnum.UNKNOWN_ERROR);
             return EMPTY;
-          })
-        )),
-        tap({
-          next: (c) => {
-            this.changeState(SpecieCreateStateEnum.SUCCESS)
-            this.setCreatedId(c.id)
-          },
-          error: (e) => {
-            this.changeState(SpecieCreateStateEnum.UNKNOWN_ERROR)
-          }
-        }),
-        catchError(() => EMPTY)
+          }),
+        ),
       ),
+      tap({
+        next: (c) => {
+          this.changeState(SpecieCreateStateEnum.SUCCESS);
+          this.setCreatedId(c.id);
+        },
+        error: (e) => {
+          this.changeState(SpecieCreateStateEnum.UNKNOWN_ERROR);
+        },
+      }),
+      catchError(() => EMPTY),
+    ),
   );
 
   private readonly changeState = this.updater(
     (state, result: SpecieCreateStateEnum) => {
-      return {...state, state: result};
+      return { ...state, state: result };
     },
   );
 
-  private readonly setCreatedId = this.updater(
-    (state, id: string) => {
-      return {...state, createdId: id};
-    },
-  );
+  private readonly setCreatedId = this.updater((state, id: string) => {
+    return { ...state, createdId: id };
+  });
 }

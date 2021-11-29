@@ -12,51 +12,51 @@ export enum OwnerDeleteStateEnum {
 }
 
 export interface OwnerDeleteState {
-  state: OwnerDeleteStateEnum
+  state: OwnerDeleteStateEnum;
 }
 
 export const initialState = {
-  state: OwnerDeleteStateEnum.INITIAL
+  state: OwnerDeleteStateEnum.INITIAL,
 } as OwnerDeleteState;
 
 @Injectable()
 export class OwnerDeleteStore extends ComponentStore<OwnerDeleteState> {
-
-  constructor(
-    private readonly ownerService: OwnerService
-  ) {
+  constructor(private readonly ownerService: OwnerService) {
     super(initialState);
   }
 
   get isLoading$() {
-    return this.select(s => s.state === OwnerDeleteStateEnum.WAITING_RESPONSE)
+    return this.select(
+      (s) => s.state === OwnerDeleteStateEnum.WAITING_RESPONSE,
+    );
   }
 
   get isDeleted$() {
-    return this.select(s => s.state === OwnerDeleteStateEnum.SUCCESS)
+    return this.select((s) => s.state === OwnerDeleteStateEnum.SUCCESS);
   }
 
-  readonly deleteOwner = this.effect(
-    (data$: Observable<string>) =>
-      data$.pipe(
-        tap(() => this.changeState(OwnerDeleteStateEnum.WAITING_RESPONSE)),
-        switchMap((id) => this.ownerService.delete(id)),
-        tap({
-          next: (c) => {
-            c ? this.changeState(OwnerDeleteStateEnum.SUCCESS) : this.changeState(OwnerDeleteStateEnum.UNKNOWN_ERROR);
-          },
-          error: (e) => {
-            console.log(e)
-            this.changeState(OwnerDeleteStateEnum.UNKNOWN_ERROR)
-          }
-        }),
-        catchError(() => EMPTY)
-      ),
+  readonly deleteOwner = this.effect((data$: Observable<string>) =>
+    data$.pipe(
+      tap(() => this.changeState(OwnerDeleteStateEnum.WAITING_RESPONSE)),
+      switchMap((id) => this.ownerService.delete(id)),
+      tap({
+        next: (c) => {
+          c
+            ? this.changeState(OwnerDeleteStateEnum.SUCCESS)
+            : this.changeState(OwnerDeleteStateEnum.UNKNOWN_ERROR);
+        },
+        error: (e) => {
+          console.log(e);
+          this.changeState(OwnerDeleteStateEnum.UNKNOWN_ERROR);
+        },
+      }),
+      catchError(() => EMPTY),
+    ),
   );
 
   private readonly changeState = this.updater(
     (state, result: OwnerDeleteStateEnum) => {
-      return {...state, state: result};
+      return { ...state, state: result };
     },
   );
 }

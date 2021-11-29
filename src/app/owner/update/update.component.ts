@@ -9,15 +9,14 @@ import { ActivatedRoute, Router } from '@angular/router';
   providers: [UpdateOwnerStore],
 })
 export class UpdateComponent implements OnInit {
-
   constructor(
     public readonly store: UpdateOwnerStore,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly router: Router
-  ) { }
+    private readonly router: Router,
+  ) {}
 
   ngOnInit(): void {
-    this.store.fetchOwner(this.activatedRoute.snapshot.params['id'])
+    this.store.fetchOwner(this.activatedRoute.snapshot.params['id']);
   }
 
   updateOwner(owner: Owner) {

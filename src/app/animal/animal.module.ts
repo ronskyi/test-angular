@@ -20,7 +20,7 @@ import { MatDividerModule } from '@angular/material/divider';
     ListComponent,
     UpdateComponent,
     CreateComponent,
-    DeleteComponent
+    DeleteComponent,
   ],
   imports: [
     AnimalRoutingModule,
@@ -30,7 +30,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatDatepickerModule,
     MatNativeDateModule,
     NgxMatSelectSearchModule,
-    MatDividerModule
-  ]
+    MatDividerModule,
+  ],
 })
-export class AnimalModule { }
+export class AnimalModule {}

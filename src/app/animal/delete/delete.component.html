@@ -5,5 +5,9 @@
   (click)="deleteEntity()"
 >
   <mat-icon *ngIf="!(store.isLoading$ | async)">delete</mat-icon>
-  <mat-spinner *ngIf="store.isLoading$ | async" diameter="16" color="warn"></mat-spinner>
+  <mat-spinner
+    *ngIf="store.isLoading$ | async"
+    diameter="16"
+    color="warn"
+  ></mat-spinner>
 </button>

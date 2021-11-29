@@ -1,4 +1,4 @@
 export interface Collection<T> {
-  items: T[],
-  total: number,
+  items: T[];
+  total: number;
 }

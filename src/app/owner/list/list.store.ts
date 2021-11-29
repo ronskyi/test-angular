@@ -18,7 +18,7 @@ export interface OwnerListState {
   total: number;
   page: number;
   pageSize: number;
-  state: OwnerListLoadingStateEnum
+  state: OwnerListLoadingStateEnum;
 }
 
 export const initialState = {
@@ -26,64 +26,63 @@ export const initialState = {
   total: 0,
   page: 1,
   pageSize: 10,
-  state: OwnerListLoadingStateEnum.INITIAL
+  state: OwnerListLoadingStateEnum.INITIAL,
 } as OwnerListState;
 
 @Injectable()
 export class OwnerListStore extends ComponentStore<OwnerListState> {
-
-  constructor(
-    private readonly ownerService: OwnerService
-  ) {
+  constructor(private readonly ownerService: OwnerService) {
     super(initialState);
   }
 
   get items$() {
-    return this.select(s => s.list)
+    return this.select((s) => s.list);
   }
 
   get total$() {
-    return this.select(s => s.total)
+    return this.select((s) => s.total);
   }
 
   get isLoading$() {
-    return this.select(s => s.state === OwnerListLoadingStateEnum.LOADING)
+    return this.select((s) => s.state === OwnerListLoadingStateEnum.LOADING);
   }
 
   readonly fetchList = this.effect(
     (data$: Observable<{ page: number; pageSize: number }>) =>
       data$.pipe(
         tap(() => this.changeState(OwnerListLoadingStateEnum.LOADING)),
-        tap((data) => this.setPagination({page: data.page, pageSize: data.pageSize})),
-        switchMap((data) => this.ownerService.fetchList('', data.page, data.pageSize)),
+        tap((data) =>
+          this.setPagination({ page: data.page, pageSize: data.pageSize }),
+        ),
+        switchMap((data) =>
+          this.ownerService.fetchList('', data.page, data.pageSize),
+        ),
         tap({
           next: (c) => {
             this.setList(c);
-            this.changeState(OwnerListLoadingStateEnum.SUCCESS)
+            this.changeState(OwnerListLoadingStateEnum.SUCCESS);
           },
           error: () => {
-            this.changeState(OwnerListLoadingStateEnum.UNKNOWN_ERROR)
-          }
+            this.changeState(OwnerListLoadingStateEnum.UNKNOWN_ERROR);
+          },
         }),
-        catchError(() => EMPTY)
+        catchError(() => EMPTY),
       ),
   );
 
   private readonly changeState = this.updater(
     (state, result: OwnerListLoadingStateEnum) => {
-      return {...state, state: result};
+      return { ...state, state: result };
     },
   );
 
-  private readonly setList = this.updater(
-    (state, list: Collection<Owner>) => {
-      return {...state, list: list.items, total: list.total};
-    },
-  );
+  private readonly setList = this.updater((state, list: Collection<Owner>) => {
+    return { ...state, list: list.items, total: list.total };
+  });
 
   private readonly setPagination = this.updater(
-    (state, pagination: { page: number, pageSize: number}) => {
-      return {...state, page: pagination.page, pageSize: pagination.pageSize};
+    (state, pagination: { page: number; pageSize: number }) => {
+      return { ...state, page: pagination.page, pageSize: pagination.pageSize };
     },
   );
 }

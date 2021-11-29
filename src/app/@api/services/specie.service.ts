@@ -6,18 +6,21 @@ import { Specie } from '@models/specie';
 
 @Injectable()
 export class SpecieService {
-  public constructor(private readonly http: HttpClient) {
-  }
+  public constructor(private readonly http: HttpClient) {}
 
-  public fetchList(keyword: string, pageNumber: number, pageSize: number): Observable<Collection<Specie>> {
+  public fetchList(
+    keyword: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Observable<Collection<Specie>> {
     const params = {
       page: pageNumber,
       page_size: pageSize,
     };
     if (keyword && keyword !== '') {
       Object.assign(params, {
-        keyword
-      })
+        keyword,
+      });
     }
     return this.http.get<Collection<Specie>>('/species', { params });
   }
@@ -41,9 +44,8 @@ export class SpecieService {
   }
 
   public delete(id: string): Observable<boolean> {
-    return this.http.delete(`/species/${id}`, {observe: 'response'}).pipe(
-      map(r => r.status === 204)
-    );
+    return this.http
+      .delete(`/species/${id}`, { observe: 'response' })
+      .pipe(map((r) => r.status === 204));
   }
 }
-

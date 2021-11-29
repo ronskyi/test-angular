@@ -13,7 +13,7 @@ import {
   NotFoundError,
   UnknownError,
   NetworkError,
-  ConflictError
+  ConflictError,
 } from '../errors';
 import { Store } from '@ngrx/store';
 import { UnauthorizedError } from '@api/errors/unauthorized.error';

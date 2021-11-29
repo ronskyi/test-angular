@@ -18,58 +18,56 @@ export interface OwnerCreateState {
 }
 
 export const initialState = {
-  state: OwnerCreateStateEnum.INITIAL
+  state: OwnerCreateStateEnum.INITIAL,
 } as OwnerCreateState;
 
 @Injectable()
 export class CreateOwnerStore extends ComponentStore<OwnerCreateState> {
-
-  constructor(
-    private readonly ownerService: OwnerService
-  ) {
+  constructor(private readonly ownerService: OwnerService) {
     super(initialState);
   }
 
   get isLoading$() {
-    return this.select(s => s.state === OwnerCreateStateEnum.WAITING_RESPONSE)
+    return this.select(
+      (s) => s.state === OwnerCreateStateEnum.WAITING_RESPONSE,
+    );
   }
 
   get createdId$() {
-    return this.select(s => s.createdId)
+    return this.select((s) => s.createdId);
   }
 
-  readonly create = this.effect(
-    (data$: Observable<Owner>) =>
-      data$.pipe(
-        tap(() => this.changeState(OwnerCreateStateEnum.WAITING_RESPONSE)),
-        switchMap((data) => this.ownerService.create(data).pipe(
-          catchError(err => {
-            this.changeState(OwnerCreateStateEnum.UNKNOWN_ERROR)
+  readonly create = this.effect((data$: Observable<Owner>) =>
+    data$.pipe(
+      tap(() => this.changeState(OwnerCreateStateEnum.WAITING_RESPONSE)),
+      switchMap((data) =>
+        this.ownerService.create(data).pipe(
+          catchError((err) => {
+            this.changeState(OwnerCreateStateEnum.UNKNOWN_ERROR);
             return EMPTY;
-          })
-        )),
-        tap({
-          next: (c) => {
-            this.changeState(OwnerCreateStateEnum.SUCCESS)
-            this.setCreatedId(c.id)
-          },
-          error: (e) => {
-            this.changeState(OwnerCreateStateEnum.UNKNOWN_ERROR)
-          }
-        }),
-        catchError(() => EMPTY)
+          }),
+        ),
       ),
+      tap({
+        next: (c) => {
+          this.changeState(OwnerCreateStateEnum.SUCCESS);
+          this.setCreatedId(c.id);
+        },
+        error: (e) => {
+          this.changeState(OwnerCreateStateEnum.UNKNOWN_ERROR);
+        },
+      }),
+      catchError(() => EMPTY),
+    ),
   );
 
   private readonly changeState = this.updater(
     (state, result: OwnerCreateStateEnum) => {
-      return {...state, state: result};
+      return { ...state, state: result };
     },
   );
 
-  private readonly setCreatedId = this.updater(
-    (state, id: string) => {
-      return {...state, createdId: id};
-    },
-  );
+  private readonly setCreatedId = this.updater((state, id: string) => {
+    return { ...state, createdId: id };
+  });
 }

@@ -16,29 +16,32 @@ interface JWTResponse {
 export class AuthService {
   public constructor(
     private readonly http: HttpClient,
-    private readonly jwtHelper: JwtHelperService
-  ) {
-  }
+    private readonly jwtHelper: JwtHelperService,
+  ) {}
 
-  public getJwt(username: string, password: string): Observable<{ token: string; tokenData: JWT }> {
-    return this.http.post<{ access_token: string }>('/login', {
-      username,
-      password
-    }).pipe(
-      map((res: { access_token: string }) => {
-        const jwtData = this.jwtHelper.decodeToken<JWTResponse>(
-          res.access_token,
-        );
-        return {
-          tokenData: {
-            ...jwtData,
-            exp: new Date(jwtData.exp * 1000),
-            iat: new Date(jwtData.iat * 1000),
-          } as JWT,
-          token: res.access_token,
-        };
-      }),
-    );
+  public getJwt(
+    username: string,
+    password: string,
+  ): Observable<{ token: string; tokenData: JWT }> {
+    return this.http
+      .post<{ access_token: string }>('/login', {
+        username,
+        password,
+      })
+      .pipe(
+        map((res: { access_token: string }) => {
+          const jwtData = this.jwtHelper.decodeToken<JWTResponse>(
+            res.access_token,
+          );
+          return {
+            tokenData: {
+              ...jwtData,
+              exp: new Date(jwtData.exp * 1000),
+              iat: new Date(jwtData.iat * 1000),
+            } as JWT,
+            token: res.access_token,
+          };
+        }),
+      );
   }
 }
-

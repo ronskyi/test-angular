@@ -6,18 +6,21 @@ import { Owner } from '@models/owner';
 
 @Injectable()
 export class OwnerService {
-  public constructor(private readonly http: HttpClient) {
-  }
+  public constructor(private readonly http: HttpClient) {}
 
-  public fetchList(keyword: string, pageNumber: number, pageSize: number): Observable<Collection<Owner>> {
+  public fetchList(
+    keyword: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Observable<Collection<Owner>> {
     const params = {
       page: pageNumber,
       page_size: pageSize,
     };
     if (keyword && keyword !== '') {
       Object.assign(params, {
-        keyword
-      })
+        keyword,
+      });
     }
     return this.http.get<Collection<Owner>>('/owners', { params });
   }
@@ -25,7 +28,7 @@ export class OwnerService {
   public create(owner: Owner): Observable<Owner> {
     const data = {
       fullName: owner.fullName,
-      ...owner.address
+      ...owner.address,
     };
     return this.http.post<Owner>('/owners', data);
   }
@@ -33,7 +36,7 @@ export class OwnerService {
   public update(owner: Owner): Observable<Owner> {
     const data = {
       fullName: owner.fullName,
-      ...owner.address
+      ...owner.address,
     };
     return this.http.put<Owner>(`/owners/${owner.id}`, data);
   }
@@ -43,9 +46,8 @@ export class OwnerService {
   }
 
   public delete(id: string): Observable<boolean> {
-    return this.http.delete(`/owners/${id}`, {observe: 'response'}).pipe(
-      map(r => r.status === 204)
-    );
+    return this.http
+      .delete(`/owners/${id}`, { observe: 'response' })
+      .pipe(map((r) => r.status === 204));
   }
 }
-

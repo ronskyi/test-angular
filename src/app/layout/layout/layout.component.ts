@@ -11,12 +11,9 @@ import * as AuthActions from '../../auth/@store/auth.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent {
+  logined$: Observable<boolean>;
 
-  logined$: Observable<boolean>
-
-  constructor(
-    private readonly store: Store
-  ) {
+  constructor(private readonly store: Store) {
     this.logined$ = store.select(isLogined);
   }
 

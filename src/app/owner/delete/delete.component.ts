@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Owner } from '../../@models/owner';
 import { OwnerDeleteStore } from './delete.store';
 import { filter, Subscription } from 'rxjs';
@@ -8,20 +16,19 @@ import { filter, Subscription } from 'rxjs';
   templateUrl: './delete.component.html',
   styleUrls: ['./delete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [OwnerDeleteStore]
+  providers: [OwnerDeleteStore],
 })
 export class DeleteComponent implements OnInit, OnDestroy {
-
   @Input() owner?: Owner;
   @Output() onDeleted: EventEmitter<void> = new EventEmitter();
   deletedSubs?: Subscription;
 
-  constructor(public readonly store: OwnerDeleteStore) { }
+  constructor(public readonly store: OwnerDeleteStore) {}
 
   ngOnInit() {
-    this.deletedSubs = this.store.isDeleted$.pipe(
-      filter(d => d)
-    ).subscribe(() => this.onDeleted.emit())
+    this.deletedSubs = this.store.isDeleted$
+      .pipe(filter((d) => d))
+      .subscribe(() => this.onDeleted.emit());
   }
 
   ngOnDestroy() {
@@ -31,5 +38,4 @@ export class DeleteComponent implements OnInit, OnDestroy {
   deleteEntity() {
     this.owner && this.store.deleteOwner(this.owner.id);
   }
-
 }

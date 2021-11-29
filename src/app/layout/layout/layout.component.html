@@ -9,10 +9,18 @@
       </button>
       <a mat-flat-button routerLink="/" color="primary">Animal management</a>
       <span fxFlex="1 1 auto"></span>
-      <button mat-icon-button (click)="logout()" *ngIf="(logined$ | async) === true">
+      <button
+        mat-icon-button
+        (click)="logout()"
+        *ngIf="(logined$ | async) === true"
+      >
         <mat-icon>logout</mat-icon>
       </button>
-      <a mat-icon-button routerLink="/login" *ngIf="(logined$ | async) === false">
+      <a
+        mat-icon-button
+        routerLink="/login"
+        *ngIf="(logined$ | async) === false"
+      >
         <mat-icon>login</mat-icon>
       </a>
     </mat-toolbar>

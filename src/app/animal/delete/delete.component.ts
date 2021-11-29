@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { DeleteAnimalStore } from './delete.store';
 import { filter, Subscription } from 'rxjs';
 import { Animal } from '@models/animal';
@@ -8,20 +16,19 @@ import { Animal } from '@models/animal';
   templateUrl: './delete.component.html',
   styleUrls: ['./delete.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DeleteAnimalStore]
+  providers: [DeleteAnimalStore],
 })
 export class DeleteComponent implements OnInit, OnDestroy {
-
   @Input() item?: Animal;
   @Output() onDeleted: EventEmitter<void> = new EventEmitter();
   deletedSubs?: Subscription;
 
-  constructor(public readonly store: DeleteAnimalStore) { }
+  constructor(public readonly store: DeleteAnimalStore) {}
 
   ngOnInit() {
-    this.deletedSubs = this.store.isDeleted$.pipe(
-      filter(d => d)
-    ).subscribe(() => this.onDeleted.emit())
+    this.deletedSubs = this.store.isDeleted$
+      .pipe(filter((d) => d))
+      .subscribe(() => this.onDeleted.emit());
   }
 
   ngOnDestroy() {
@@ -34,5 +41,4 @@ export class DeleteComponent implements OnInit, OnDestroy {
     }
     this.item && this.store.deleteItem(this.item.id);
   }
-
 }

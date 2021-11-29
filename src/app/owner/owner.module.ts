@@ -14,12 +14,8 @@ import { DeleteComponent } from './delete/delete.component';
     ListComponent,
     UpdateComponent,
     CreateComponent,
-    DeleteComponent
+    DeleteComponent,
   ],
-  imports: [
-    OwnerRoutingModule,
-    SharedModule,
-    ApiModule
-  ]
+  imports: [OwnerRoutingModule, SharedModule, ApiModule],
 })
-export class OwnerModule { }
+export class OwnerModule {}

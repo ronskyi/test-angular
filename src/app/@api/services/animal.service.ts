@@ -6,10 +6,12 @@ import { Animal, Pet, WildAnimal } from '../../@models/animal';
 
 @Injectable()
 export class AnimalService {
-  public constructor(private readonly http: HttpClient) {
-  }
+  public constructor(private readonly http: HttpClient) {}
 
-  public fetchList(pageNumber: number, pageSize: number): Observable<Collection<Animal>> {
+  public fetchList(
+    pageNumber: number,
+    pageSize: number,
+  ): Observable<Collection<Animal>> {
     return this.http.get<Collection<Animal>>('/animals', {
       params: {
         page: pageNumber,
@@ -37,9 +39,9 @@ export class AnimalService {
   }
 
   public delete(id: string): Observable<boolean> {
-    return this.http.delete(`/animals/${id}`, {observe: 'response'}).pipe(
-      map(r => r.status === 204)
-    );
+    return this.http
+      .delete(`/animals/${id}`, { observe: 'response' })
+      .pipe(map((r) => r.status === 204));
   }
 
   private static mapItemToData(item: Animal) {
@@ -52,16 +54,15 @@ export class AnimalService {
     switch (item.type) {
       case 'Pet':
         Object.assign(data, {
-          ownerId: (item as Pet).owner.id
+          ownerId: (item as Pet).owner.id,
         });
         break;
       case 'WildAnimal':
         Object.assign(data, {
-          trackingId: (item as WildAnimal).trackingId
+          trackingId: (item as WildAnimal).trackingId,
         });
         break;
     }
     return data;
   }
 }
-

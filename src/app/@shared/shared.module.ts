@@ -40,6 +40,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     FlexLayoutModule,
     MatCardModule,
     MatProgressBarModule,
-  ]
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -17,11 +17,9 @@ import { AuthService } from '@api/services/auth.service';
     AuthService,
     {
       provide: JwtHelperService,
-      useFactory: () => new JwtHelperService()
-    }
+      useFactory: () => new JwtHelperService(),
+    },
   ],
-  imports: [
-    HttpClientModule
-  ],
+  imports: [HttpClientModule],
 })
-export class ApiModule { }
+export class ApiModule {}

@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Specie } from '../../@models/specie';
 
@@ -8,17 +15,14 @@ import { Specie } from '../../@models/specie';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpecieFormComponent implements OnInit {
-
   @Input('data') specie?: Specie;
   @Output() onSave: EventEmitter<Specie> = new EventEmitter<Specie>();
 
   specieForm: FormGroup;
 
-  constructor(
-    private readonly formBuilder: FormBuilder
-  ) {
+  constructor(private readonly formBuilder: FormBuilder) {
     this.specieForm = formBuilder.group({
-      'label': ['', [Validators.required, Validators.maxLength(50)]],
+      label: ['', [Validators.required, Validators.maxLength(50)]],
     });
   }
 
@@ -42,6 +46,6 @@ export class SpecieFormComponent implements OnInit {
   private createSpecieFromForm(): Specie {
     return {
       label: this.specieForm.get('label')?.value,
-    } as Specie
+    } as Specie;
   }
 }

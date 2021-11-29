@@ -12,50 +12,50 @@ export enum SpecieDeleteStateEnum {
 }
 
 export interface SpecieDeleteState {
-  state: SpecieDeleteStateEnum
+  state: SpecieDeleteStateEnum;
 }
 
 export const initialState = {
-  state: SpecieDeleteStateEnum.INITIAL
+  state: SpecieDeleteStateEnum.INITIAL,
 } as SpecieDeleteState;
 
 @Injectable()
 export class SpecieDeleteStore extends ComponentStore<SpecieDeleteState> {
-
-  constructor(
-    private readonly specieService: SpecieService
-  ) {
+  constructor(private readonly specieService: SpecieService) {
     super(initialState);
   }
 
   get isLoading$() {
-    return this.select(s => s.state === SpecieDeleteStateEnum.WAITING_RESPONSE)
+    return this.select(
+      (s) => s.state === SpecieDeleteStateEnum.WAITING_RESPONSE,
+    );
   }
 
   get isDeleted$() {
-    return this.select(s => s.state === SpecieDeleteStateEnum.SUCCESS)
+    return this.select((s) => s.state === SpecieDeleteStateEnum.SUCCESS);
   }
 
-  readonly deleteOwner = this.effect(
-    (data$: Observable<string>) =>
-      data$.pipe(
-        tap(() => this.changeState(SpecieDeleteStateEnum.WAITING_RESPONSE)),
-        switchMap((id) => this.specieService.delete(id)),
-        tap({
-          next: (c) => {
-            c ? this.changeState(SpecieDeleteStateEnum.SUCCESS) : this.changeState(SpecieDeleteStateEnum.UNKNOWN_ERROR);
-          },
-          error: (e) => {
-            this.changeState(SpecieDeleteStateEnum.UNKNOWN_ERROR)
-          }
-        }),
-        catchError(() => EMPTY)
-      ),
+  readonly deleteOwner = this.effect((data$: Observable<string>) =>
+    data$.pipe(
+      tap(() => this.changeState(SpecieDeleteStateEnum.WAITING_RESPONSE)),
+      switchMap((id) => this.specieService.delete(id)),
+      tap({
+        next: (c) => {
+          c
+            ? this.changeState(SpecieDeleteStateEnum.SUCCESS)
+            : this.changeState(SpecieDeleteStateEnum.UNKNOWN_ERROR);
+        },
+        error: (e) => {
+          this.changeState(SpecieDeleteStateEnum.UNKNOWN_ERROR);
+        },
+      }),
+      catchError(() => EMPTY),
+    ),
   );
 
   private readonly changeState = this.updater(
     (state, result: SpecieDeleteStateEnum) => {
-      return {...state, state: result};
+      return { ...state, state: result };
     },
   );
 }

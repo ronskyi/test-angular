@@ -50,26 +50,24 @@ export class LoginStore extends ComponentStore<ILoginFromState> {
       data$.pipe(
         tap(() => this.changeState(LoginStateEnum.WAITING_RESPONSE)),
         switchMap((data) =>
-          this.authService
-            .getJwt(data.email, data.password)
-            .pipe(
-              tap({
-                next: ({ token, tokenData }) => {
-                  this.changeState(LoginStateEnum.SUCCESS);
-                  this.store.dispatch(
-                    AuthActions.setToken({
-                      token: token,
-                      tokenData: tokenData,
-                    }),
-                  );
-                },
-                error: (err) =>
-                  err instanceof UnauthorizedError
-                    ? this.changeState(LoginStateEnum.LOGIN_ERROR)
-                    : this.changeState(LoginStateEnum.UNKNOWN_ERROR),
-              }),
-              catchError(() => EMPTY),
-            ),
+          this.authService.getJwt(data.email, data.password).pipe(
+            tap({
+              next: ({ token, tokenData }) => {
+                this.changeState(LoginStateEnum.SUCCESS);
+                this.store.dispatch(
+                  AuthActions.setToken({
+                    token: token,
+                    tokenData: tokenData,
+                  }),
+                );
+              },
+              error: (err) =>
+                err instanceof UnauthorizedError
+                  ? this.changeState(LoginStateEnum.LOGIN_ERROR)
+                  : this.changeState(LoginStateEnum.UNKNOWN_ERROR),
+            }),
+            catchError(() => EMPTY),
+          ),
         ),
       ),
   );

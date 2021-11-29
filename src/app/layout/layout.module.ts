@@ -8,20 +8,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
-  declarations: [
-    SideMenuComponent,
-    LayoutComponent
-  ],
+  declarations: [SideMenuComponent, LayoutComponent],
   imports: [
     SharedModule,
     RouterModule,
     MatSidenavModule,
     MatListModule,
-    MatToolbarModule
+    MatToolbarModule,
   ],
-  exports: [
-    LayoutComponent
-  ]
+  exports: [LayoutComponent],
 })
-export class LayoutModule {
-}
+export class LayoutModule {}
